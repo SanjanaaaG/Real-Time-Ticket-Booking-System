@@ -14,9 +14,7 @@ public class Seat {
     private long seatId;
     @ManyToOne
     private Event event;
-    @UniqueElements
     private String seatRow;
-    @UniqueElements
     private Integer seatNumber;
     private SeatTypeEnum seatType;
     private BigDecimal price;
