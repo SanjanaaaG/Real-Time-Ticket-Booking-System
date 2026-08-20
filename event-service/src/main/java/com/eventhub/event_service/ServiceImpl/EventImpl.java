@@ -11,6 +11,7 @@ import com.eventhub.event_service.Repository.EventRepo;
 import com.eventhub.event_service.Repository.SeatRepo;
 import com.eventhub.event_service.Repository.VenueRepo;
 import com.eventhub.event_service.Service.EventService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,7 @@ public class EventImpl implements EventService {
     }
 
 
+    @Transactional
     @Override
     public EventResponse createEvent(EventRequest eventRequest) {
         try{
