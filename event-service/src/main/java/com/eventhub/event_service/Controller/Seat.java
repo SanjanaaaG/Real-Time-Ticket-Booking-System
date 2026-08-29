@@ -45,8 +45,8 @@ public class Seat {
     }
 
     @PutMapping("/api/v1/events/{eventId}/seats/{seatId}/book")
-    public ResponseEntity<List<SeatResponse>> seatBooked(@PathVariable Long eventId, @PathVariable Long seatId){
-        List<SeatResponse> s = seatImpl.updateSeatBooked(eventId,seatId);
+    public ResponseEntity<SeatResponse> seatBooked(@PathVariable Long eventId, @PathVariable Long seatId){
+        SeatResponse s = seatImpl.markSeatAsBooked(eventId,seatId);
         try{
             if(s != null){
                 return new ResponseEntity<>(s, HttpStatus.OK);
