@@ -45,7 +45,7 @@ public class BookingServiceImpl implements BookingService {
         List<SeatDetailsResponse> eventSeats = eventServiceClient.getSeatsForEvent(request.getEventId());
 
         Map<Long, SeatDetailsResponse> seatMap = eventSeats.stream()
-                .collect(Collectors.toMap(SeatDetailsResponse::getId, s -> s));
+                .collect(Collectors.toMap(SeatDetailsResponse::getSeatid, s -> s));
 
         // 2. Validate every requested seat exists and is AVAILABLE, before touching Redis at all
         for (Long seatId : request.getSeatIds()) {
@@ -54,7 +54,7 @@ public class BookingServiceImpl implements BookingService {
                 throw new SeatUnavailableException(
                         "Seat " + seatId + " does not exist for event " + request.getEventId());
             }
-            if (!"AVAILABLE".equals(seat.getStatus())) {
+            if (!"AVAILABLE".equals(seat.getSeatStatus())) {
                 throw new SeatUnavailableException(
                         "Seat " + seatId + " is already booked");
             }

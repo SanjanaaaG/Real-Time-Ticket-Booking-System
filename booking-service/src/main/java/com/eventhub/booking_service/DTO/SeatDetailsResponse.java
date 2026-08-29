@@ -12,10 +12,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class SeatDetailsResponse {
-    private Long id;
+    private Long Seatid;
     private String seatRow;
     private Integer seatNumber;
     private String seatType;
     private BigDecimal price;
-    private String status;   // "AVAILABLE" or "BOOKED"
+    private String seatStatus;   // "AVAILABLE" or "BOOKED"
 }

@@ -22,9 +22,9 @@ public class EventMapper {
             for(int i=1 ; i<=seatRequest.getSeatsInRow() ; i++){
                 Seat seat = new Seat();
                 seat.setEvent(event);
-                seat.setSeatRow(seatRequest.getRowLabel());
+                seat.setSeatRow(seatRequest.getSeatRow());
                 seat.setSeatNumber(i);
-                seat.setSeatType(SeatTypeEnum.valueOf(seatRequest.getSeatType()));
+                seat.setSeatType(SeatTypeEnum.valueOf(String.valueOf(seatRequest.getSeatType())));
                 seat.setPrice(seatRequest.getPrice());
                 seat.setStatus(SeatStatusEnum.AVAILABLE);
                 seats.add(seat);

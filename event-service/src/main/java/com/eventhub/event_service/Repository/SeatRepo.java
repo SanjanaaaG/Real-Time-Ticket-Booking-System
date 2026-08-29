@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface SeatRepo extends JpaRepository<Seat, Integer> {
     public List<Seat> findByEvent_EventId(Long eventId);
-    public Seat findByIdAndEvent_EventId(Long seatId, Long eventId);
+    public Seat findBySeatIdAndEvent_EventId(Long seatId, Long eventId);
 }

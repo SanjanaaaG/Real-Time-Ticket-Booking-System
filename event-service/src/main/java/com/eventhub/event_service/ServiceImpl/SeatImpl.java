@@ -42,8 +42,8 @@ public class SeatImpl implements SeatService {
     }
 
     @Override
-    public SeatResponse markSeatAsBooked(Long eventId, Long seatId) {
-        Seat seats = seatRepo.findByIdAndEvent_EventId(seatId,eventId);
+    public SeatResponse markSeatAsBooked(Long seatId, Long eventId) {
+        Seat seats = seatRepo.findBySeatIdAndEvent_EventId(seatId,eventId);
         if(seats.getStatus() == SeatStatusEnum.BOOKED){
             throw new RuntimeException("Seat is already booked");
         }
@@ -53,8 +53,8 @@ public class SeatImpl implements SeatService {
     }
 
     @Override
-    public SeatResponse releaseSeat(Long eventId, Long seatId) {
-        Seat seats = seatRepo.findByIdAndEvent_EventId(seatId,eventId);
+    public SeatResponse releaseSeat(Long seatId, Long eventId) {
+        Seat seats = seatRepo.findBySeatIdAndEvent_EventId(seatId,eventId);
         if(seats.getStatus() == SeatStatusEnum.AVAILABLE){
             throw new RuntimeException("Seat is already available");
         }

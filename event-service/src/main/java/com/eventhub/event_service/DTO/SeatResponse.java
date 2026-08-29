@@ -1,6 +1,8 @@
 package com.eventhub.event_service.DTO;
 
 import com.eventhub.event_service.Entity.SeatStatusEnum;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Data;
 
 import java.math.BigDecimal;

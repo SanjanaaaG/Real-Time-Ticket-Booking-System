@@ -16,8 +16,11 @@ public class Seat {
     private Event event;
     private String seatRow;
     private Integer seatNumber;
-    private SeatTypeEnum seatType;
     private BigDecimal price;
+    @Enumerated(EnumType.STRING)
+    private SeatTypeEnum seatType;
+
+    @Enumerated(EnumType.STRING)
     private SeatStatusEnum status;
 
 }
