@@ -41,14 +41,36 @@ public class SeatImpl implements SeatService {
                 .collect(Collectors.toList());
     }
 
+//    @Override
+//    public SeatResponse markSeatAsBooked(Long seatId, Long eventId) {
+//        Seat seats = seatRepo.findBySeatIdAndEvent_EventId(seatId,eventId);
+//        if(seats.getStatus() == SeatStatusEnum.BOOKED){
+//            throw new RuntimeException("Seat is already booked");
+//        }
+//        seats.setStatus(SeatStatusEnum.BOOKED);
+//        seatRepo.save(seats);
+//        return seatMapper.toSeatResponse(seats);
+//    }
+
     @Override
-    public SeatResponse markSeatAsBooked(Long seatId, Long eventId) {
+    public SeatResponse markSeatAsBooked(Long eventId, Long seatId) {
+
         Seat seats = seatRepo.findBySeatIdAndEvent_EventId(seatId,eventId);
-        if(seats.getStatus() == SeatStatusEnum.BOOKED){
+
+        if (seats == null) {
+            throw new RuntimeException(
+                    "Seat not found. seatId: " + seatId + ", eventId: " + eventId
+            );
+        }
+
+        if (seats.getStatus() == SeatStatusEnum.BOOKED) {
             throw new RuntimeException("Seat is already booked");
         }
+
         seats.setStatus(SeatStatusEnum.BOOKED);
+
         seatRepo.save(seats);
+
         return seatMapper.toSeatResponse(seats);
     }
 

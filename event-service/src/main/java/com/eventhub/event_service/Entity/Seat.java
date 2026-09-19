@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 public class Seat {
     @Id
     @GeneratedValue
-    private long seatId;
+    private Long seatId;
     @ManyToOne
     private Event event;
     private String seatRow;

@@ -6,12 +6,14 @@ import com.eventhub.booking_service.DTO.HoldRequest;
 import com.eventhub.booking_service.DTO.HoldResponse;
 import com.eventhub.booking_service.DTO.SeatDetailsResponse;
 import com.eventhub.booking_service.Entity.Booking;
+import com.eventhub.booking_service.Entity.BookingEvent;
 import com.eventhub.booking_service.Entity.BookingSeat;
 import com.eventhub.booking_service.Entity.BookingStatusEnum;
 import com.eventhub.booking_service.Exception.BookingConflictException;
 import com.eventhub.booking_service.Exception.ResourceNotFoundException;
 import com.eventhub.booking_service.Exception.SeatUnavailableException;
 import com.eventhub.booking_service.Repository.BookingRepo;
+import com.eventhub.booking_service.Service.BookingEventPublisher;
 import com.eventhub.booking_service.Service.BookingService;
 import com.eventhub.booking_service.Service.SeatHoldService;
 import feign.FeignException;
@@ -33,6 +35,7 @@ public class BookingServiceImpl implements BookingService {
     private final SeatHoldService seatHoldService;
     private final BookingRepo bookingRepository;
     private final EventServiceClient eventServiceClient;
+    private final BookingEventPublisher bookingEventPublisher;
 
     @Value("${booking.hold.duration-seconds}")
     private long holdDurationSeconds;
@@ -197,6 +200,16 @@ public class BookingServiceImpl implements BookingService {
         Booking saved = bookingRepository.save(booking);
 
         // TODO (Kafka step): publish BookingConfirmed event here for Notification Service.
+        bookingEventPublisher.publish(BookingEvent.builder()
+                .eventType("BOOKING_CONFIRMED")
+                .bookingId(saved.getBookingId())
+                .eventId(saved.getEventId())
+                .userId(saved.getUserId())
+                .seatIds(seatIds)
+                .status(saved.getStatus())
+                .totalAmount(saved.getTotalAmount())
+                .timestamp(LocalDateTime.now())
+                .build());
 
         return toBookingResponse(saved);
     }
