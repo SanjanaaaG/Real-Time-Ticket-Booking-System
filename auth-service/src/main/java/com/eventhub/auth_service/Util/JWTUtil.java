@@ -4,6 +4,7 @@ import com.eventhub.auth_service.Entity.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -12,12 +13,12 @@ import java.util.Date;
 @Component
 public class JWTUtil {
 
-    private final String SECRET =
-            "mysecretkeymysecretkeymysecretkey";
+    @Value("${jwt.secret}")
+    private String secret;
 
     private SecretKey getSignKey() {
         return Keys.hmacShaKeyFor(
-                SECRET.getBytes(StandardCharsets.UTF_8)
+                secret.getBytes(StandardCharsets.UTF_8)
         );
     }
 
@@ -29,7 +30,7 @@ public class JWTUtil {
                 .claim("role", user.getRole().name())
                 .issuedAt(new Date())
                 .expiration(
-                        new Date(System.currentTimeMillis() + 1000 * 60 * 60)
+                        new Date(System.currentTimeMillis() + 1000 * 60 * 60 )
                 )
                 .signWith(getSignKey())
                 .compact();
